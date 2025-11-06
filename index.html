@@ -123,11 +123,16 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             object-fit: cover;
             margin-bottom: var(--space-24);
-            /* Base styles for animation */
-            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+            /* Base styles for animation: Ensure it can be transformed */
+            transform: scale(1);
+            opacity: 1;
         }
 
-        /* NEW: Animation Keyframes */
+        /* ---------------------------------- */
+        /* START: PROFILE PICTURE ANIMATION */
+        /* ---------------------------------- */
+
+        /* NEW: Profile Picture Animation Keyframes (Pop and Zoom Out) */
         @keyframes profilePopIn {
             0% {
                 transform: scale(0.5);
@@ -144,23 +149,65 @@
             }
         }
 
-        /* NEW: Class to trigger the animation */
-        .profile-pic.animate {
-            animation: profilePopIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
-            /* Using a bouncy easing function */
-        }
-
-        /* NEW: Initial state (optional, but good for a smooth start) */
+        /* NEW: Initial state for the picture */
         .profile-pic.initial-load {
             opacity: 0;
             transform: scale(0.5);
+        }
+
+        /* NEW: Class to trigger the picture animation */
+        .profile-pic.animate {
+            /* Using a bouncy easing function */
+            animation: profilePopIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+
+        /* ---------------------------------- */
+        /* END: PROFILE PICTURE ANIMATION */
+        /* ---------------------------------- */
+
+
+        /* ---------------------------------- */
+        /* START: NAME ANIMATION */
+        /* ---------------------------------- */
+
+        /* NEW: Name Animation Keyframes (Descend Down) */
+        @keyframes nameDescend {
+            0% {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .header h1 {
             font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-4xl));
             font-weight: var(--font-weight-bold);
             margin-bottom: var(--space-8);
+            /* Ensure it can be transformed */
+            position: relative;
+            transform: translateY(0);
+            opacity: 1;
         }
+
+        /* NEW: Initial state for the Name (h1) */
+        .header h1.initial-name-load {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        /* NEW: Class to trigger the name animation */
+        .header h1.animate-name {
+            animation: nameDescend 0.6s ease-out forwards;
+        }
+
+        /* ---------------------------------- */
+        /* END: NAME ANIMATION */
+        /* ---------------------------------- */
+
 
         .header .tagline {
             font-size: var(--font-size-base);
@@ -717,7 +764,7 @@
         </div>
         <div class="header-content">
             <img src="https://i.ibb.co/r2srGXB4/Untitled-design-1.png" alt="Faraz Ahmed" class="profile-pic initial-load" id="profilePic" />
-            <h1>Faraz Ahmed</h1>
+            <h1 id="userName" class="initial-name-load">Faraz Ahmed</h1>
             <p class="tagline">
                 Dedicated customer service professional with 7+ years of expertise, eager to bring my versatile skills
                 and commitment to a collaborative team environment where I can make a positive impact.
@@ -839,9 +886,9 @@
                     </article>
                 </div>
             </div>
-            
+
             <div id="experience-controls" class="flex justify-between items-center mt-4 p-2">
-                
+
                 <button class="carousel-nav" id="prev-btn" aria-label="Previous Work Experience">
                     ‹
                 </button>
@@ -956,24 +1003,26 @@
                 });
             });
         }
-        
-        // NEW: One-time "Pop and Zoom Out" Animation Logic
+
+        // NEW: One-time Animation Logic for Picture and Name
         const profilePic = document.getElementById('profilePic');
-        
-        // Use DOMContentLoaded to ensure the element exists, 
-        // and window.onload to ensure the image is loaded (for better timing)
+        const userName = document.getElementById('userName');
+
+        // Use window.load to ensure the image is loaded (for better timing)
         window.addEventListener('load', () => {
+            // 1. Profile Picture Animation (Pop-in)
             if (profilePic) {
-                // 1. Remove the initial state class
-                profilePic.classList.remove('initial-load'); 
-                // 2. Add the animation class to trigger the keyframes
+                profilePic.classList.remove('initial-load');
                 profilePic.classList.add('animate');
-                
-                // OPTIONAL: Remove the animation class after it finishes 
-                // to prevent re-triggering (though the 'forwards' ensures it sticks)
+            }
+
+            // 2. Name Animation (Descend) - Trigger with a slight delay
+            if (userName) {
+                // Delay the name animation by 300ms to create a layered effect
                 setTimeout(() => {
-                    profilePic.classList.remove('animate');
-                }, 800); // Wait for the animation duration (0.8s)
+                    userName.classList.remove('initial-name-load');
+                    userName.classList.add('animate-name');
+                }, 300);
             }
         });
     </script>
