@@ -619,7 +619,7 @@
         .carousel-container {
             position: relative;
             overflow: hidden;
-            margin-bottom: var(--space-64);
+            margin-bottom: var(--space-24); /* Adjusted margin for the new controls */
         }
 
         .carousel-track {
@@ -686,44 +686,98 @@
             color: var(--color-text);
         }
 
-
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 32px;
-            height: 32px;
-            background-color: var(--color-primary);
-            color: var(--color-white);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: var(--shadow-md);
-            opacity: 0.8;
+        /* REMOVING THE OLD HIDDEN CAROUSEL NAVS */
+        .carousel-nav.carousel-prev,
+        .carousel-nav.carousel-next {
             display: none;
-            /* Hide on mobile by default */
+            /* Hide the old, absolute-positioned nav buttons */
+        }
+
+
+        /* NEW PAGINATION STYLES (Provided by user) */
+
+        /* Style for the navigation buttons */
+        .carousel-nav {
+            display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10;
-        }
-
-        @media (min-width: 768px) {
-            .carousel-nav {
-                display: flex;
-                /* Show on desktop */
-            }
-        }
-
-        .carousel-nav:hover {
+            width: 36px;
+            height: 36px;
+            background-color: var(--color-surface);
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            transition: all 0.2s ease;
+            user-select: none;
+            /* Make sure to override any absolute positioning from old styles */
+            position: static;
+            transform: none;
             opacity: 1;
         }
 
-        .carousel-prev {
-            left: 8px;
+        .carousel-nav:hover:not(:disabled) {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            transform: scale(1.05);
         }
 
-        .carousel-next {
-            right: 8px;
+        .carousel-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Style for the pagination dots */
+        #experience-indicators {
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-indicator {
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-radius: var(--radius-full);
+            background-color: var(--color-text-secondary);
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            opacity: 0.6;
+        }
+
+        .carousel-indicator:hover {
+            opacity: 1;
+        }
+
+        .carousel-indicator.active {
+            background-color: var(--color-primary);
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        /* Utility Class for Flexbox */
+        .flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .mt-4 {
+            margin-top: var(--space-16);
+        }
+
+        .p-2 {
+            padding: var(--space-8);
         }
 
         /* Media Queries */
@@ -827,8 +881,7 @@
         <section id="work-experience" class="section">
             <h2 class="section-title">Work Experience</h2>
             <div class="carousel-container">
-                <button class="carousel-nav carousel-prev" aria-label="Previous Work Experience">‹</button>
-                <div class="carousel-track" tabindex="0">
+                <div class="carousel-track" tabindex="0" id="carouselTrack">
                     <article class="carousel-item">
                         <h4>Senior Operations Executive</h4>
                         <div class="company">smallcase</div>
@@ -983,40 +1036,132 @@
             menuToggle.classList.toggle('active');
         });
 
-        // Carousel navigation
-        const prevBtn = document.querySelector('.carousel-prev');
-        const nextBtn = document.querySelector('.carousel-next');
-        const track = document.querySelector('.carousel-track');
+        // ----------------------------------------------------
+        // START: UPDATED CAROUSEL LOGIC WITH PAGINATION
+        // ----------------------------------------------------
 
-        if (prevBtn && nextBtn && track) {
-            prevBtn.addEventListener('click', () => {
-                track.scrollBy({
-                    left: -320,
-                    behavior: 'smooth'
-                });
-            });
+        const track = document.getElementById('carouselTrack');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const indicatorsContainer = document.getElementById('experience-indicators');
+        const items = document.querySelectorAll('.carousel-item');
+        const itemCount = items.length;
+        let currentIndex = 0;
+        let itemWidth = 0; // To be calculated on load/resize
 
-            nextBtn.addEventListener('click', () => {
-                track.scrollBy({
-                    left: 320,
-                    behavior: 'smooth'
+        // Function to create and render indicators
+        function renderIndicators() {
+            indicatorsContainer.innerHTML = ''; // Clear existing indicators
+            for (let i = 0; i < itemCount; i++) {
+                const indicator = document.createElement('button');
+                indicator.classList.add('carousel-indicator');
+                indicator.setAttribute('aria-label', `Go to work experience ${i + 1}`);
+                indicator.dataset.index = i; // Store the index
+
+                if (i === currentIndex) {
+                    indicator.classList.add('active');
+                }
+
+                indicator.addEventListener('click', (e) => {
+                    const targetIndex = parseInt(e.target.dataset.index);
+                    scrollToIndex(targetIndex);
                 });
-            });
+
+                indicatorsContainer.appendChild(indicator);
+            }
         }
 
-        // NEW: One-time Animation Logic for Picture and Name
-        const profilePic = document.getElementById('profilePic');
-        const userName = document.getElementById('userName');
+        // Function to update indicator and button states
+        function updateCarouselState() {
+            // Update active indicator
+            document.querySelectorAll('.carousel-indicator').forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentIndex);
+            });
 
-        // Use window.load to ensure the image is loaded (for better timing)
+            // Update button disabled state
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex >= itemCount - 1; // Assuming only one item is visible for simplicity
+            
+            // For a more accurate check that handles partial visibility:
+            // Check if the scroll position is close to the start/end
+            const isAtStart = track.scrollLeft < 10;
+            const isAtEnd = track.scrollWidth - track.scrollLeft - track.clientWidth < 10;
+
+            prevBtn.disabled = isAtStart;
+            nextBtn.disabled = isAtEnd;
+
+            // This ensures buttons are disabled correctly if we scroll manually
+            if (currentIndex === 0) prevBtn.disabled = true;
+            if (currentIndex === itemCount - 1) nextBtn.disabled = true;
+        }
+
+
+        // Function to scroll to a specific index
+        function scrollToIndex(index) {
+            if (index < 0 || index >= itemCount) return;
+            
+            // Calculate the total scroll amount needed
+            // This relies on the first item being visible at scroll 0, and subsequent items 
+            // starting at position N * (itemWidth + gap)
+            if (itemWidth === 0) {
+                // Fallback or initialization of itemWidth, including the gap (24px or var(--space-24))
+                // This assumes 300px min-width and 24px gap = 324px scroll step for next item
+                const itemStyle = window.getComputedStyle(items[0]);
+                itemWidth = items[0].offsetWidth + parseFloat(itemStyle.marginRight) || 324;
+            }
+
+            const scrollAmount = index * (items[0].offsetWidth + 24); // 24px is the gap
+            track.scroll({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+            currentIndex = index;
+            updateCarouselState();
+        }
+
+        // Event listeners for prev/next buttons
+        prevBtn.addEventListener('click', () => {
+            scrollToIndex(currentIndex - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            scrollToIndex(currentIndex + 1);
+        });
+
+        // Event listener for manual scrolling (to update state/indicators)
+        track.addEventListener('scroll', () => {
+            if (items.length === 0) return;
+            // Determine the currently visible item index based on scroll position
+            const scrollLeft = track.scrollLeft;
+            const itemFullWidth = items[0].offsetWidth + 24; // Item width + gap
+            
+            // Calculate the closest item index
+            let newIndex = Math.round(scrollLeft / itemFullWidth);
+            
+            // Clamp the index to valid range
+            newIndex = Math.max(0, Math.min(itemCount - 1, newIndex));
+
+            if (newIndex !== currentIndex) {
+                currentIndex = newIndex;
+                updateCarouselState();
+            }
+        });
+
+
+        // Initialization on load
         window.addEventListener('load', () => {
+            renderIndicators();
+            updateCarouselState(); // Initial check for button disabling (prev button should be disabled)
+
             // 1. Profile Picture Animation (Pop-in)
+            const profilePic = document.getElementById('profilePic');
             if (profilePic) {
                 profilePic.classList.remove('initial-load');
                 profilePic.classList.add('animate');
             }
 
             // 2. Name Animation (Descend) - Trigger with a slight delay
+            const userName = document.getElementById('userName');
             if (userName) {
                 // Delay the name animation by 300ms to create a layered effect
                 setTimeout(() => {
@@ -1025,6 +1170,10 @@
                 }, 300);
             }
         });
+        
+        // ----------------------------------------------------
+        // END: UPDATED CAROUSEL LOGIC WITH PAGINATION
+        // ----------------------------------------------------
     </script>
 
 </body>
