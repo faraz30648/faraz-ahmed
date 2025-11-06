@@ -123,6 +123,37 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             object-fit: cover;
             margin-bottom: var(--space-24);
+            /* Base styles for animation */
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+
+        /* NEW: Animation Keyframes */
+        @keyframes profilePopIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* NEW: Class to trigger the animation */
+        .profile-pic.animate {
+            animation: profilePopIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            /* Using a bouncy easing function */
+        }
+
+        /* NEW: Initial state (optional, but good for a smooth start) */
+        .profile-pic.initial-load {
+            opacity: 0;
+            transform: scale(0.5);
         }
 
         .header h1 {
@@ -685,7 +716,7 @@
             </ul>
         </div>
         <div class="header-content">
-            <img src="https://i.ibb.co/r2srGXB4/Untitled-design-1.png" alt="Faraz Ahmed" class="profile-pic" />
+            <img src="https://i.ibb.co/r2srGXB4/Untitled-design-1.png" alt="Faraz Ahmed" class="profile-pic initial-load" id="profilePic" />
             <h1>Faraz Ahmed</h1>
             <p class="tagline">
                 Dedicated customer service professional with 7+ years of expertise, eager to bring my versatile skills
@@ -809,26 +840,20 @@
                 </div>
             </div>
             
-            <!-- START: CONTROL BAR (Arrows and Indicators) -->
             <div id="experience-controls" class="flex justify-between items-center mt-4 p-2">
                 
-                <!-- PREVIOUS Button -->
                 <button class="carousel-nav" id="prev-btn" aria-label="Previous Work Experience">
                     ‹
                 </button>
 
-                <!-- PAGINATION INDICATORS CONTAINER (Centered) -->
                 <div id="experience-indicators" class="flex items-center space-x-2">
-                    <!-- Dots will be generated here by JavaScript -->
-                </div>
+                    </div>
 
-                <!-- NEXT Button -->
                 <button class="carousel-nav" id="next-btn" aria-label="Next Work Experience">
                     ›
                 </button>
             </div>
-            <!-- END: CONTROL BAR -->
-        </section>
+            </section>
 
         <section id="skills" class="section">
             <h2 class="section-title">Skills</h2>
@@ -931,6 +956,26 @@
                 });
             });
         }
+        
+        // NEW: One-time "Pop and Zoom Out" Animation Logic
+        const profilePic = document.getElementById('profilePic');
+        
+        // Use DOMContentLoaded to ensure the element exists, 
+        // and window.onload to ensure the image is loaded (for better timing)
+        window.addEventListener('load', () => {
+            if (profilePic) {
+                // 1. Remove the initial state class
+                profilePic.classList.remove('initial-load'); 
+                // 2. Add the animation class to trigger the keyframes
+                profilePic.classList.add('animate');
+                
+                // OPTIONAL: Remove the animation class after it finishes 
+                // to prevent re-triggering (though the 'forwards' ensures it sticks)
+                setTimeout(() => {
+                    profilePic.classList.remove('animate');
+                }, 800); // Wait for the animation duration (0.8s)
+            }
+        });
     </script>
 
 </body>
