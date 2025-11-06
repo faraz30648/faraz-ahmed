@@ -799,6 +799,20 @@
                 grid-template-columns: 1fr;
             }
         }
+    
+    /* Ensure the list has standard padding so items aren't touching the edge */
+#work-experience ul {
+    /* Adjust this value as needed, 20px is standard */
+    padding-left: 20px; 
+}
+
+/* This is the key fix: it tells the browser to place the bullet OUTSIDE the main text block */
+#work-experience li {
+    list-style-position: outside;
+    /* This ensures that every line of text after the first wraps correctly underneath the first line of text. */
+    text-align: left; 
+}
+
     </style>
 </head>
 
@@ -884,7 +898,7 @@
                 <div class="carousel-track" tabindex="0" id="carouselTrack">
                     <article class="carousel-item">
                         <h4>Senior Operations Executive</h4>
-                        <div class="company">smallcase</div>
+                        <div class="company"><strong>smallcase</strong></div>
                         <div class="date">April 2025 - Present</div>
                         <ul>
                             <li>Leading operations to enhance customer service efficiency.</li>
@@ -894,7 +908,7 @@
                     </article>
                     <article class="carousel-item">
                         <h4>Senior Consultant - Customer Support</h4>
-                        <div class="company">Intouch.Cx</div>
+                        <div class="company"><strong>Intouch.Cx</strong></div>
                         <div class="date">2022 - 2025</div>
                         <ul>
                             <li>Resolve player concerns via email and Discord across platforms.</li>
@@ -906,7 +920,7 @@
                     </article>
                     <article class="carousel-item">
                         <h4>Team Supervisor</h4>
-                        <div class="company">Wakefit</div>
+                        <div class="company"><strong>Wakefit</strong></div>
                         <div class="date">2020 - 2022</div>
                         <ul>
                             <li>Handled inbound and outbound calls, emails, and chats.</li>
@@ -918,7 +932,7 @@
                     </article>
                     <article class="carousel-item">
                         <h4>Customer Service Advisor</h4>
-                        <div class="company">Udaan</div>
+                        <div class="company"><strong>Udaan</strong></div>
                         <div class="date">2019 - 2020</div>
                         <ul>
                             <li>Managed inbound and outbound communications.</li>
@@ -929,7 +943,7 @@
                     </article>
                     <article class="carousel-item">
                         <h4>Senior Operations Executive</h4>
-                        <div class="company">Ajio.com</div>
+                        <div class="company"><strong>Ajio.com</strong></div>
                         <div class="date">2016 - 2018</div>
                         <ul>
                             <li>Escalation and social media team member.</li>
@@ -939,6 +953,7 @@
                     </article>
                 </div>
             </div>
+            
 
             <div id="experience-controls" class="flex justify-between items-center mt-4 p-2">
 
