@@ -6,29 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Faraz Ahmed - Customer Service Professional</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
-        /* CSS Variables - Dark Mode Default */
+        /* CSS Variables - Dark Mode Default (Refined Palette) */
         :root {
             --color-white: rgba(255, 255, 255, 1);
-            --color-background: rgba(31, 33, 33, 1);
-            --color-surface: rgba(38, 40, 40, 1);
+            --color-background: rgba(20, 25, 30, 1);
+            /* Dark Charcoal Background */
+            --color-surface: rgba(25, 30, 35, 1);
             --color-text: rgba(245, 245, 245, 1);
             --color-text-secondary: rgba(167, 169, 169, 0.7);
             --color-primary: rgba(50, 184, 198, 1);
-            --color-primary-hover: rgba(45, 166, 178, 1);
-            --color-border: rgba(119, 124, 124, 0.3);
-            --color-card-border: rgba(119, 124, 124, 0.2);
-            --font-family-base: "FKGroteskNeue", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --color-primary-hover: rgba(40, 160, 175, 1);
+            --color-border: rgba(119, 124, 124, 0.15);
+            --color-card-border: rgba(119, 124, 124, 0.1);
+            --font-family-base: "Montserrat", "FKGroteskNeue", "Inter", sans-serif;
             --font-family-tagline: "Merriweather", serif;
             --font-size-base: 14px;
             --font-size-lg: 16px;
             --font-size-xl: 18px;
             --font-size-2xl: 20px;
-            --font-size-3xl: 24px;
-            --font-size-4xl: 30px;
+            --font-size-3xl: 26px;
+            --font-size-4xl: 38px;
             --font-weight-medium: 500;
-            --font-weight-semibold: 550;
-            --font-weight-bold: 600;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
             --space-8: 8px;
             --space-12: 12px;
             --space-16: 16px;
@@ -39,27 +41,25 @@
             --radius-base: 8px;
             --radius-lg: 12px;
             --radius-full: 9999px;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-            /* NEW: Shadow for the prominent button */
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
         }
 
         /* Light Mode Overrides */
         @media (prefers-color-scheme: light) {
             :root {
-                --color-background: rgba(252, 252, 249, 1);
-                --color-surface: rgba(255, 255, 253, 1);
+                --color-background: rgba(245, 247, 250, 1);
+                --color-surface: rgba(255, 255, 255, 1);
                 --color-text: rgba(19, 52, 59, 1);
                 --color-text-secondary: rgba(98, 108, 113, 0.8);
                 --color-primary: rgba(33, 128, 141, 1);
                 --color-primary-hover: rgba(29, 116, 128, 1);
-                --color-border: rgba(94, 82, 64, 0.2);
-                --color-card-border: rgba(94, 82, 64, 0.12);
-                --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-                --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
-                /* NEW: Shadow for the prominent button in light mode */
-                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                --color-border: rgba(94, 82, 64, 0.1);
+                --color-card-border: rgba(94, 82, 64, 0.08);
+                --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+                --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             }
         }
 
@@ -82,20 +82,51 @@
             scroll-behavior: smooth;
         }
 
+        /* --- SWIPE-DOWN FIX: STRUCTURAL CSS --- */
         body {
             margin: 0;
             padding: 0;
+            overflow: hidden;
         }
 
-        /* Header and Profile Styling */
+        body.header-open {
+            overflow-y: auto;
+        }
+
         .header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background: linear-gradient(135deg, var(--color-background) 0%, #171b20 50%, #20262c 100%);
             color: var(--color-white);
             padding: var(--space-64) var(--space-24) var(--space-48);
             text-align: center;
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
             overflow: hidden;
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
+
+        body.header-open .header {
+            transform: translateY(-100vh);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            margin-top: 100vh;
+            transition: margin-top 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        body.header-open .content-wrapper {
+            margin-top: 0;
+        }
+
+        /* --- END SWIPE-DOWN FIX: STRUCTURAL CSS --- */
 
         .header::after {
             content: '';
@@ -104,163 +135,93 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
+            background: radial-gradient(circle at 70% 30%, rgba(50, 184, 198, 0.1) 0%, transparent 60%);
             pointer-events: none;
         }
 
+        /* --- REDESIGNED HEADER CONTENT --- */
         .header-content {
             max-width: 768px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: center;
+            padding: 0 var(--space-12);
         }
 
         .profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: var(--radius-full);
-            border: 4px solid var(--color-white);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            width: 100px;
+            height: 100px;
+            border-radius: 20%;
+            border: 3px solid var(--color-white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             object-fit: cover;
             margin-bottom: var(--space-24);
-            /* Base styles for animation: Ensure it can be transformed */
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        /* ---------------------------------- */
-        /* START: PROFILE PICTURE ANIMATION */
-        /* ---------------------------------- */
-
-        /* NEW: Profile Picture Animation Keyframes (Pop and Zoom Out) */
-        @keyframes profilePopIn {
-            0% {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-
-            60% {
-                transform: scale(1.1);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        /* NEW: Initial state for the picture */
-        .profile-pic.initial-load {
-            opacity: 0;
-            transform: scale(0.5);
-        }
-
-        /* NEW: Class to trigger the picture animation */
-        .profile-pic.animate {
-            /* Using a bouncy easing function */
-            animation: profilePopIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
-        }
-
-        /* ---------------------------------- */
-        /* END: PROFILE PICTURE ANIMATION */
-        /* ---------------------------------- */
-
-
-        /* ---------------------------------- */
-        /* START: NAME ANIMATION */
-        /* ---------------------------------- */
-
-        /* NEW: Name Animation Keyframes (Descend Down) */
-        @keyframes nameDescend {
-            0% {
-                transform: translateY(-30px);
-                opacity: 0;
-            }
-
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         .header h1 {
-            font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-4xl));
+            font-size: clamp(var(--font-size-3xl), 8vw, var(--font-size-4xl));
             font-weight: var(--font-weight-bold);
-            margin-bottom: var(--space-8);
-            /* Ensure it can be transformed */
-            position: relative;
-            transform: translateY(0);
-            opacity: 1;
+            margin-bottom: var(--space-12);
         }
-
-        /* NEW: Initial state for the Name (h1) */
-        .header h1.initial-name-load {
-            opacity: 0;
-            transform: translateY(-30px);
-        }
-
-        /* NEW: Class to trigger the name animation */
-        .header h1.animate-name {
-            animation: nameDescend 0.6s ease-out forwards;
-        }
-
-        /* ---------------------------------- */
-        /* END: NAME ANIMATION */
-        /* ---------------------------------- */
-
 
         .header .tagline {
-            font-size: var(--font-size-base);
+            font-size: clamp(var(--font-size-base), 4vw, var(--font-size-lg));
             font-family: var(--font-family-tagline);
             font-style: italic;
-            letter-spacing: 0.3px;
-            margin-bottom: var(--space-24);
-            padding: var(--space-24);
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: var(--radius-lg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.2px;
+            margin-bottom: var(--space-32);
+            width: 100%;
+            max-width: 600px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Social Links - Icon Only, Center Aligned Card */
         .social-links {
             display: flex;
             justify-content: center;
             gap: var(--space-16);
-            margin-top: var(--space-24);
+            margin-top: var(--space-12);
+            margin-bottom: var(--space-48);
             flex-wrap: wrap;
         }
 
         .social-link {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            padding: 14px;
-            width: 70px;
-            /* CHANGED from 48px */
-            height: 70px;
-            /* CHANGED from 48px */
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: var(--radius-full);
-            color: var(--color-white);
+            padding: 8px 12px;
+            background: none;
+            border-radius: var(--radius-base);
+            color: var(--color-primary);
             text-decoration: none;
             font-weight: var(--font-weight-medium);
             transition: all 0.25s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .social-link span {
-            display: none;
+            font-size: var(--font-size-base);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .social-link:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(50, 184, 198, 0.1);
+            color: var(--color-primary-hover);
             transform: translateY(-2px);
+            border-color: var(--color-primary);
         }
 
-        /* NEW HAMBURGER MENU STYLES */
+        .social-link svg {
+            margin-right: var(--space-8);
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* --- END REDESIGNED HEADER CONTENT --- */
+
+
+        /* Hamburger Menu STYLES */
         .nav-menu {
             position: absolute;
             top: 0;
@@ -277,7 +238,6 @@
             cursor: pointer;
             position: relative;
             z-index: 1001;
-            /* Ensure button is above the list */
         }
 
         .menu-icon {
@@ -335,17 +295,8 @@
             transition: transform 0.3s ease-in-out;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
             padding-top: 80px;
-            /* Space for the menu toggle button */
             z-index: 1000;
             color: var(--color-text);
-        }
-
-        /* Light Mode adjustment for nav list */
-        @media (prefers-color-scheme: light) {
-            .nav-list {
-                background-color: var(--color-white);
-                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            }
         }
 
         .nav-list.open {
@@ -367,11 +318,13 @@
             color: var(--color-white);
         }
 
+
         /* Main Content Styling */
         .container {
             max-width: 1024px;
             margin: 0 auto;
             padding: var(--space-48) var(--space-24);
+            padding-top: 0;
         }
 
         .section {
@@ -379,7 +332,7 @@
         }
 
         .section-title {
-            font-size: var(--font-size-3xl);
+            font-size: clamp(var(--font-size-2xl), 6vw, var(--font-size-3xl));
             font-weight: var(--font-weight-bold);
             color: var(--color-text);
             margin-bottom: var(--space-24);
@@ -398,14 +351,13 @@
             border-radius: var(--radius-full);
         }
 
-        /* Card and Experience Styling */
         .card,
         .experience-card,
         .skill-category {
             background-color: var(--color-surface);
             border-radius: var(--radius-lg);
             border: 1px solid var(--color-card-border);
-            padding: var(--space-32);
+            padding: var(--space-24);
             box-shadow: var(--shadow-sm);
             margin-bottom: var(--space-24);
         }
@@ -416,15 +368,8 @@
             color: var(--color-text-secondary);
         }
 
-        .experience-card h3 {
-            color: var(--color-primary);
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-semibold);
-            margin-bottom: var(--space-16);
-        }
-
-        .experience-card ul,
-        .skill-category ul {
+        /* Customer Support List - No dot, only star */
+        .experience-card ul {
             list-style: none;
             padding: 0;
         }
@@ -435,6 +380,7 @@
             position: relative;
             line-height: 1.7;
             color: var(--color-text);
+            display: block; /* Ensure it flows like a block element */
         }
 
         .experience-card li::before {
@@ -443,13 +389,15 @@
             left: 0;
             color: var(--color-primary);
             font-size: 12px;
+            line-height: 1.7;
+            top: 0;
         }
 
-        /* Skills Grid */
+
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-24);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-16);
         }
 
         .skill-category h3 {
@@ -459,7 +407,10 @@
             margin-bottom: var(--space-16);
         }
 
-        /* --- NEW SKILL BULLET STYLES --- */
+        .skill-category ul {
+            list-style: none;
+        }
+
         .skill-category li {
             padding-left: var(--space-24);
             margin-bottom: var(--space-8);
@@ -473,51 +424,41 @@
             color: var(--color-primary);
             font-weight: var(--font-weight-bold);
             font-size: 1.1em;
-            /* Make bullet slightly bigger */
             top: 0;
-            /* Align with top of text */
         }
 
-        /* Specific bullet for Soft Skills */
+        /* Soft Skills: Checkmark */
         #soft-skills li::before {
             content: '✓';
-            /* Checkmark */
         }
 
-        /* Specific bullet for Technical Skills */
+        /* Tech Skills: Chevron */
         #tech-skills li::before {
             content: '›';
-            /* Chevron */
             font-weight: 900;
-            /* Make chevron bolder */
             top: -1px;
-            /* Adjust vertical alignment */
+            font-size: 1.2em;
         }
-        /* --- END NEW SKILL STYLES --- */
 
-
-        /* CTA Section & Buttons */
         .cta-section {
             background: linear-gradient(135deg, var(--color-primary), rgba(34, 197, 94, 0.08));
             background-blend-mode: multiply;
             border-radius: var(--radius-lg);
-            padding: var(--space-48) var(--space-32);
+            padding: var(--space-32) var(--space-24);
             text-align: center;
             border: 1px solid var(--color-border);
         }
 
         .cta-section h2 {
-            font-size: var(--font-size-3xl);
+            font-size: clamp(var(--font-size-2xl), 6vw, var(--font-size-3xl));
             font-weight: var(--font-weight-bold);
             margin-bottom: var(--space-16);
             color: var(--color-white);
-            /* Ensure visibility over gradient */
         }
 
         .cta-section p {
             font-size: var(--font-size-lg);
             color: var(--color-white);
-            /* Ensure visibility over gradient */
             margin-bottom: var(--space-32);
         }
 
@@ -527,46 +468,31 @@
             padding: 12px 32px;
             border-radius: var(--radius-base);
             font-weight: var(--font-weight-bold);
-            /* BOLDER FONT */
             cursor: pointer;
             transition: all 0.3s ease;
-            /* SLIGHTLY LONGER TRANSITION */
             text-decoration: none;
             border: 2px solid transparent;
-            /* Thicker base border */
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        /* --- UPDATED BUTTON STYLES --- */
-
-        /* Primary Button: Get In Touch (Prominent) */
         .btn-primary {
             background: var(--color-white);
-            /* Inverse background */
             color: var(--color-primary-hover);
-            /* Primary text color */
             border-color: var(--color-white);
             box-shadow: var(--shadow-lg);
-            /* Prominent shadow */
             position: relative;
-            /* For the icon */
             padding-right: 42px;
-            /* Space for the icon/arrow */
         }
 
         .btn-primary:hover {
             background: var(--color-primary);
-            /* Hover on inverse color */
             color: var(--color-white);
             border-color: var(--color-white);
             transform: translateY(-4px);
-            /* More pronounced lift */
             box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.4);
-            /* Increased shadow on hover */
         }
 
-        /* ADDED: Icon/Arrow for Primary Button */
         .btn-primary::after {
             content: '→';
             position: absolute;
@@ -579,30 +505,21 @@
             transform: translateX(4px);
         }
 
-        /* Secondary Button: My CV (Outline Style) */
         .btn-secondary {
             background: transparent;
-            /* Transparent background */
             color: var(--color-white);
-            /* White text */
             margin-left: var(--space-16);
             border: 2px solid var(--color-white);
-            /* White outline */
             font-weight: var(--font-weight-medium);
         }
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.15);
-            /* Subtle fill on hover */
             color: var(--color-white);
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
 
-        /* --- END UPDATED BUTTON STYLES --- */
-
-
-        /* Footer */
         .footer {
             background-color: var(--color-surface);
             border-top: 1px solid var(--color-border);
@@ -615,151 +532,137 @@
             font-size: 12px;
         }
 
-        /* Carousel Styles */
+        /* --- CAROUSEL STYLES (Indent/Wrap FIX) --- */
         .carousel-container {
             position: relative;
             overflow: hidden;
-            margin-bottom: var(--space-24); /* Adjusted margin for the new controls */
+            margin-bottom: var(--space-24);
         }
 
         .carousel-track {
             display: flex;
             gap: var(--space-24);
-            overflow-x: auto;
+            overflow-x: scroll;
             scroll-behavior: smooth;
             padding-bottom: var(--space-16);
             scroll-snap-type: x mandatory;
-            /* Added for better mobile experience */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         .carousel-track::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .carousel-track::-webkit-scrollbar-thumb {
-            background-color: var(--color-primary);
-            border-radius: var(--radius-base);
+            display: none;
         }
 
         .carousel-item {
-            min-width: 300px;
-            max-width: 320px;
-            background-color: var(--color-surface);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--color-card-border);
-            padding: var(--space-24);
-            box-shadow: var(--shadow-sm);
+            min-width: 320px;
             flex-shrink: 0;
+            padding: var(--space-24);
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
             scroll-snap-align: start;
-            font-family: var(--font-family-base);
-            color: var(--color-text);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
+            box-shadow: var(--shadow-sm);
         }
 
         .carousel-item h4 {
-            color: var(--color-primary);
             font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-semibold);
+            color: var(--color-primary);
             margin-bottom: var(--space-8);
         }
 
         .carousel-item .company {
-            font-weight: var(--font-weight-medium);
             font-size: var(--font-size-lg);
             margin-bottom: var(--space-4);
-            color: var(--color-text-secondary);
+            color: var(--color-text);
         }
 
         .carousel-item .date {
             font-size: var(--font-size-base);
             color: var(--color-text-secondary);
-            margin-bottom: var(--space-12);
-            font-style: italic;
+            margin-bottom: var(--space-16);
         }
 
         .carousel-item ul {
-            list-style: disc inside;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* === CRUCIAL FIX: Hanging-indent style for bullets ===
+           - padding-left equals bullet area so wrapped lines align
+           - bullet placed absolutely at left: 0
+           - white-space normal and word-break ensure wrapping on small screens
+           - top offset tuned so bullet vertically aligns with first line
+        */
+        .carousel-item li {
+            padding-left: 1.6em;            /* space for the bullet */
+            position: relative;
             line-height: 1.6;
-            flex-grow: 1;
-            color: var(--color-text);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-8);
+            display: block;
+            white-space: normal;
+            word-break: break-word;
+            /* Ensure the block will allow natural wrapping */
         }
 
-        /* REMOVING THE OLD HIDDEN CAROUSEL NAVS */
-        .carousel-nav.carousel-prev,
-        .carousel-nav.carousel-next {
-            display: none;
-            /* Hide the old, absolute-positioned nav buttons */
-        }
-
-
-        /* NEW PAGINATION STYLES (Provided by user) */
-
-        /* Style for the navigation buttons */
-        .carousel-nav {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background-color: var(--color-surface);
+        .carousel-item li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            top: 0.12em;                    /* small tweak to vertically center bullet with first line */
             color: var(--color-primary);
-            border: 2px solid var(--color-primary);
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            font-size: var(--font-size-xl);
             font-weight: var(--font-weight-bold);
-            transition: all 0.2s ease;
-            user-select: none;
-            /* Make sure to override any absolute positioning from old styles */
-            position: static;
-            transform: none;
-            opacity: 1;
+            font-size: 1.05em;
+            line-height: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation Controls */
+        .carousel-nav {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            line-height: 1;
         }
 
         .carousel-nav:hover:not(:disabled) {
-            background-color: var(--color-primary);
-            color: var(--color-white);
+            background-color: var(--color-primary-hover);
             transform: scale(1.05);
         }
 
         .carousel-nav:disabled {
-            opacity: 0.3;
+            background: var(--color-surface);
+            color: var(--color-text-secondary);
             cursor: not-allowed;
-        }
-
-        /* Style for the pagination dots */
-        #experience-indicators {
-            display: flex;
-            gap: 8px;
+            border: 1px solid var(--color-card-border);
+            opacity: 0.6;
         }
 
         .carousel-indicator {
-            display: block;
             width: 10px;
             height: 10px;
             border-radius: var(--radius-full);
             background-color: var(--color-text-secondary);
             border: none;
-            padding: 0;
+            margin: 0 4px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            opacity: 0.6;
-        }
-
-        .carousel-indicator:hover {
-            opacity: 1;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         .carousel-indicator.active {
             background-color: var(--color-primary);
-            opacity: 1;
             transform: scale(1.2);
         }
 
-        /* Utility Class for Flexbox */
         .flex {
             display: flex;
         }
@@ -780,44 +683,224 @@
             padding: var(--space-8);
         }
 
-        /* Media Queries */
+        .space-x-2>*+* {
+            margin-left: var(--space-8);
+        }
+
+
+        /* --- SWIPE-DOWN BUTTON STYLING (Flow-Based) --- */
+        .swipe-down-button {
+            position: static;
+            margin-top: var(--space-48);
+            margin-bottom: var(--space-48);
+            margin-left: auto;
+            margin-right: auto;
+            background: var(--color-primary);
+            color: var(--color-white);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-medium);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--color-primary);
+            border-radius: var(--radius-full);
+            padding: 10px 20px;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .swipe-down-button:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .swipe-down-button .arrows {
+            font-size: 1.5em;
+            line-height: 1;
+            margin-left: 8px;
+            display: inline-block;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(4px);
+            }
+
+            60% {
+                transform: translateY(2px);
+            }
+        }
+
+        /* --- END SWIPE-DOWN BUTTON STYLING --- */
+
+
+        /* --- BACK-TO-TOP FAB STYLES --- */
+        .back-to-top-fab {
+            position: fixed;
+            bottom: var(--space-32);
+            right: var(--space-24);
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-full);
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border: none;
+            box-shadow: var(--shadow-md);
+            font-size: 24px;
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            z-index: 100;
+        }
+
+        .back-to-top-fab.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top-fab:hover {
+            background-color: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* --- END BACK-TO-TOP FAB STYLES --- */
+
+        /* Media Queries (Mobile Fixes) */
         @media (max-width: 768px) {
             .header {
-                padding: var(--space-48) var(--space-16);
+                padding: var(--space-32) var(--space-16) var(--space-48);
             }
 
             .container {
                 padding: var(--space-32) var(--space-16);
             }
 
+            /* Stack CTA buttons on mobile */
+            .cta-section div {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
             .btn-secondary {
                 margin-left: 0;
-                margin-top: var(--space-12);
+                margin-top: var(--space-16);
+                width: 100%;
+                max-width: 250px;
             }
 
-            .skills-grid {
-                grid-template-columns: 1fr;
+            .btn-primary {
+                width: 100%;
+                max-width: 250px;
+                padding-right: 42px;
+            }
+
+            .carousel-item {
+                /* Adjust min-width to better fit the screen with padding/margin */
+                min-width: calc(100vw - 32px - 24px);
+                /* 100vw - 2 * padding - 1 * gap */
+            }
+
+            .back-to-top-fab {
+                bottom: var(--space-24);
+                right: var(--space-16);
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+
+            .swipe-down-button {
+                margin-bottom: var(--space-32);
+                margin-top: var(--space-32);
             }
         }
-    
-    /* Ensure the list has standard padding so items aren't touching the edge */
-#work-experience ul {
-    /* Adjust this value as needed, 20px is standard */
-    padding-left: 20px; 
-}
 
-/* This is the key fix: it tells the browser to place the bullet OUTSIDE the main text block */
-#work-experience li {
-    list-style-position: outside;
-    /* This ensures that every line of text after the first wraps correctly underneath the first line of text. */
-    text-align: left; 
+        /* Animation Keyframes */
+        @keyframes profilePopIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .profile-pic.initial-load {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        .profile-pic.animate {
+            animation: profilePopIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+
+        @keyframes nameDescend {
+            0% {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header h1.initial-name-load {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        .header h1.animate-name {
+            animation: nameDescend 0.6s ease-out forwards;
+        }
+    
+        .carousel-item ul li {
+  white-space: normal;       /* Allow text wrapping */
+  display: list-item;        /* Default list item display */
+  word-wrap: break-word;     /* Break long words if needed */
+  overflow-wrap: anywhere;   /* Break words anywhere to prevent overflow */
+  line-height: 1.4em;        /* Comfortable line spacing */
+  width: 100%;               /* Full width for wrapping */
+  box-sizing: border-box;    /* Include padding in width */
+  padding-right: 10px;       /* Right padding for spacing */
+}
+.carousel-item {
+  min-width: 280px;          /* Min width suitable for smaller screens */
+  max-width: 100%;           /* Flexible max width */
+  box-sizing: border-box;
+  word-break: break-word;    /* Break words if needed */
 }
 
     </style>
 </head>
 
 <body>
-    <header class="header">
+    <header class="header" id="fullScreenHeader">
         <div class="nav-menu">
             <button class="menu-toggle" aria-label="Toggle navigation menu" id="menuToggle">
                 <span class="menu-icon"></span>
@@ -831,199 +914,273 @@
             </ul>
         </div>
         <div class="header-content">
-            <img src="https://i.ibb.co/r2srGXB4/Untitled-design-1.png" alt="Faraz Ahmed" class="profile-pic initial-load" id="profilePic" />
+            <img src="https://i.ibb.co/r2srGXB4/Untitled-design-1.png" alt="Faraz Ahmed"
+                class="profile-pic initial-load" id="profilePic" />
             <h1 id="userName" class="initial-name-load">Faraz Ahmed</h1>
-            <p class="tagline">
-                Dedicated customer service professional with 7+ years of expertise, eager to bring my versatile skills
-                and commitment to a collaborative team environment where I can make a positive impact.
-            </p>
+
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/faraz-ahmed-43b3a3200/" target="_blank"
                     rel="noopener noreferrer" class="social-link" aria-label="LinkedIn Profile">
-                    <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24">
                         <path
                             d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                     </svg>
-                    <span>LinkedIn</span>
+                    LinkedIn
                 </a>
                 <a href="mailto:faraz30648@gmail.com" class="social-link" aria-label="Email Faraz Ahmed">
-                    <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24">
                         <path
                             d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z" />
                     </svg>
-                    <span>Email</span>
+                    Email
                 </a>
             </div>
-            </div>
+
+            <p class="tagline">
+                Dedicated customer service professional with <strong>7+ years of expertise</strong>, eager to bring my versatile skills
+                and commitment to a collaborative team environment where I can make a positive impact.
+            </p>
+
+            <button class="swipe-down-button" id="swipeDownBtn" aria-label="Swipe down to view full profile">
+                View Full Profile
+                <span class="arrows">
+                    »
+                </span>
+            </button>
+        </div>
+
     </header>
 
-
-    <main class="container">
-        <section id="about" class="section">
-            <h2 class="section-title">About Me</h2>
-            <div class="card">
-                <p>Customer service professional with <strong>7+ years of experience</strong> in managing inbound and outbound
-                    communications across multiple channels.</p>
-                <p>Known for skillfully <strong>handling escalations, building effective knowledge bases, and driving team
-                    success</strong>.</p>
-                <p>Proficient in <strong>MS Office Suite and Google applications</strong>, with a strong focus on delivering results and
-                    enhancing customer satisfaction.</p>
-            </div>
-        </section>
-
-
-        <section id="customer-support-experience" class="section">
-            <h2 class="section-title">Customer Support Experience</h2>
-            <div class="experience-card">
-                <h3>Senior Consultant in Customer Support</h3>
-                <ul>
-                    <li>Managed player concerns for online games with expertise</li>
-                    <li>Handled high-volume inbound and outbound communications across calls, emails, and chats</li>
-                    <li>Efficiently addressed customer inquiries and resolved issues</li>
-                    <li>Consistently managed interactions, adapting based on business requirements</li>
-                    <li>Developed and maintained a comprehensive knowledge base</li>
-                    <li>Enhanced training and performance for over 200 agents</li>
-                    <li>Supervised a team focused on effective outbound calls</li>
-                    <li>Ensured quality interactions and team productivity</li>
-                    <li>Provided guidance and support to improve service quality</li>
-                    <li>Proficient in customer support tools including email, chat, and Discord</li>
-                </ul>
-            </div>
-        </section>
-
-
-        <section id="work-experience" class="section">
-            <h2 class="section-title">Work Experience</h2>
-            <div class="carousel-container">
-                <div class="carousel-track" tabindex="0" id="carouselTrack">
-                    <article class="carousel-item">
-                        <h4>Senior Operations Executive</h4>
-                        <div class="company"><strong>smallcase</strong></div>
-                        <div class="date">April 2025 - Present</div>
-                        <ul>
-                            <li>Leading operations to enhance customer service efficiency.</li>
-                            <li>Coordinating between teams to ensure smooth processes.</li>
-                            <li>Driving initiatives for superior client satisfaction.</li>
-                        </ul>
-                    </article>
-                    <article class="carousel-item">
-                        <h4>Senior Consultant - Customer Support</h4>
-                        <div class="company"><strong>Intouch.Cx</strong></div>
-                        <div class="date">2022 - 2025</div>
-                        <ul>
-                            <li>Resolve player concerns via email and Discord across platforms.</li>
-                            <li>Investigate and escalate complex cases.</li>
-                            <li>Supervise support team to meet SLAs.</li>
-                            <li>Collaborate internally for issue resolution.</li>
-                            <li>Achieved high CSAT scores, player-focused approach.</li>
-                        </ul>
-                    </article>
-                    <article class="carousel-item">
-                        <h4>Team Supervisor</h4>
-                        <div class="company"><strong>Wakefit</strong></div>
-                        <div class="date">2020 - 2022</div>
-                        <ul>
-                            <li>Handled inbound and outbound calls, emails, and chats.</li>
-                            <li>Supervised outbound calls team.</li>
-                            <li>Managed multiple team reports for improvements.</li>
-                            <li>Monitored reviews on Amazon and Flipkart.</li>
-                            <li>Converted negative reviews to positive.</li>
-                        </ul>
-                    </article>
-                    <article class="carousel-item">
-                        <h4>Customer Service Advisor</h4>
-                        <div class="company"><strong>Udaan</strong></div>
-                        <div class="date">2019 - 2020</div>
-                        <ul>
-                            <li>Managed inbound and outbound communications.</li>
-                            <li>Developed knowledge base improving training.</li>
-                            <li>Supervised outbound calls team.</li>
-                            <li>Handled over 100 interactions daily.</li>
-                        </ul>
-                    </article>
-                    <article class="carousel-item">
-                        <h4>Senior Operations Executive</h4>
-                        <div class="company"><strong>Ajio.com</strong></div>
-                        <div class="date">2016 - 2018</div>
-                        <ul>
-                            <li>Escalation and social media team member.</li>
-                            <li>Managed calls, emails, chats, social media responses, escalations.</li>
-                            <li>Handled over 100 interactions daily.</li>
-                        </ul>
-                    </article>
+    <div class="content-wrapper" id="contentWrapper">
+        <main class="container">
+            <section id="about" class="section">
+                <h2 class="section-title">About Me</h2>
+                <div class="card">
+                    <p>Customer service professional with <strong>7+ years of experience</strong> in managing inbound
+                        and outbound
+                        communications across multiple channels.</p>
+                    <p>Known for skillfully <strong>handling escalations, building effective knowledge bases, and
+                        driving team
+                        success</strong>.</p>
+                    <p>Proficient in <strong>MS Office Suite and Google applications</strong>, with a strong focus on
+                        delivering results and
+                        enhancing customer satisfaction.</p>
                 </div>
-            </div>
-            
-
-            <div id="experience-controls" class="flex justify-between items-center mt-4 p-2">
-
-                <button class="carousel-nav" id="prev-btn" aria-label="Previous Work Experience">
-                    ‹
-                </button>
-
-                <div id="experience-indicators" class="flex items-center space-x-2">
-                    </div>
-
-                <button class="carousel-nav" id="next-btn" aria-label="Next Work Experience">
-                    ›
-                </button>
-            </div>
             </section>
 
-        <section id="skills" class="section">
-            <h2 class="section-title">Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category" id="soft-skills">
-                    <h3>Soft Skills</h3>
+
+            <section id="customer-support-experience" class="section">
+                <h2 class="section-title">Customer Support Experience</h2>
+                <div class="experience-card">
+                    <h3>Senior Consultant in Customer Support</h3>
                     <ul>
-                        <li>Agile and result-oriented with experience in fast-paced environments</li>
-                        <li>Can work under pressure, delivering high-quality work</li>
-                        <li>Proven ability to manage multiple priorities and deadlines</li>
-                        <li>Detail-Oriented Problem Solver</li>
-                        <li>Effective Communicator &amp; Team Player</li>
-                        <li>Proactive Learner in Dynamic Environments</li>
-                        <li>Deadline-Driven High-Quality Work</li>
+                        <li>Managed player concerns for online games with expertise</li>
+                        <li>Handled high-volume inbound and outbound communications across calls, emails, and chats
+                        </li>
+                        <li>Efficiently addressed customer inquiries and resolved issues</li>
+                        <li>Consistently managed interactions, adapting based on business requirements</li>
+                        <li>Developed and maintained a comprehensive knowledge base</li>
+                        <li>Enhanced training and performance for over 200 agents</li>
+                        <li>Supervised a team focused on effective outbound calls</li>
+                        <li>Ensured quality interactions and team productivity</li>
+                        <li>Provided guidance and support to improve service quality</li>
+                        <li>Proficient in customer support tools including email, chat, and Discord</li>
                     </ul>
                 </div>
-                <div class="skill-category" id="tech-skills">
-                    <h3>Technical Skills</h3>
-                    <ul>
-                        <li>Google Apps (Sheets, Docs, Sites)</li>
-                        <li>MS Office (Excel, Word, PowerPoint)</li>
-                        <li>Basic SQL MYSQL</li>
-                        <li>Google Analytics</li>
-                        <li>Basic Adobe Photoshop</li>
-                        <li>Corel Draw</li>
-                        <li>Canva</li>
-                    </ul>
+            </section>
+
+
+            <section id="work-experience" class="section">
+                <h2 class="section-title">Work Experience</h2>
+                <div class="carousel-container">
+                    <div class="carousel-track" tabindex="0" id="carouselTrack">
+                        <article class="carousel-item">
+                            <h4>Senior Operations Executive</h4>
+                            <div class="company"><strong>smallcase</strong></div>
+                            <div class="date">April 2025 - Present</div>
+                            <ul>
+                                <li>Leading operations to enhance customer service efficiency. This is a longer point to
+                                    test how the text wraps onto the second line and ensures it aligns correctly with the
+                                    first line, maintaining a clean indent. This ensures excellent readability for long,
+                                    descriptive points.</li>
+                                <li>Coordinating between teams to ensure smooth processes and high-quality deliverables.
+                                </li>
+                                <li>Driving initiatives for superior client satisfaction.</li>
+                            </ul>
+                        </article>
+                        <article class="carousel-item">
+                            <h4>Senior Consultant - Customer Support</h4>
+                            <div class="company"><strong>Intouch.Cx</strong></div>
+                            <div class="date">2022 - 2025</div>
+                            <ul>
+                                <li>Resolve player concerns via email and Discord across platforms.</li>
+                                <li>Investigate and escalate complex cases.</li>
+                                <li>Supervise support team to meet SLAs.</li>
+                                <li>Collaborate internally for issue resolution.</li>
+                                <li>Achieved high CSAT scores, player-focused approach.</li>
+                            </ul>
+                        </article>
+                        <article class="carousel-item">
+                            <h4>Team Supervisor</h4>
+                            <div class="company"><strong>Wakefit</strong></div>
+                            <div class="date">2020 - 2022</div>
+                            <ul>
+                                <li>Handled inbound and outbound calls, emails, and chats.</li>
+                                <li>Supervised outbound calls team.</li>
+                                <li>Managed multiple team reports for improvements.</li>
+                                <li>Monitored reviews on Amazon and Flipkart.</li>
+                                <li>Converted negative reviews to positive.</li>
+                            </ul>
+                        </article>
+                        <article class="carousel-item">
+                            <h4>Customer Service Advisor</h4>
+                            <div class="company"><strong>Udaan</strong></div>
+                            <div class="date">2019 - 2020</div>
+                            <ul>
+                                <li>Managed inbound and outbound communications.</li>
+                                <li>Developed knowledge base improving training.</li>
+                                <li>Supervised outbound calls team.</li>
+                                <li>Handled over 100 interactions daily.</li>
+                            </ul>
+                        </article>
+                        <article class="carousel-item">
+                            <h4>Senior Operations Executive</h4>
+                            <div class="company"><strong>Ajio.com</strong></div>
+                            <div class="date">2016 - 2018</div>
+                            <ul>
+                                <li>Escalation and social media team member.</li>
+                                <li>Managed calls, emails, chats, social media responses, escalations.</li>
+                                <li>Handled over 100 interactions daily.</li>
+                            </ul>
+                        </article>
+                    </div>
                 </div>
-            </div>
-        </section>
+
+                <div id="experience-controls" class="flex justify-between items-center mt-4 p-2">
+
+                    <button class="carousel-nav" id="prev-btn" aria-label="Previous Work Experience">
+                        ‹
+                    </button>
+
+                    <div id="experience-indicators" class="flex items-center space-x-2">
+                    </div>
+
+                    <button class="carousel-nav" id="next-btn" aria-label="Next Work Experience">
+                        ›
+                    </button>
+                </div>
+            </section>
+
+            <section id="skills" class="section">
+                <h2 class="section-title">Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-category" id="soft-skills">
+                        <h3>Soft Skills</h3>
+                        <ul>
+                            <li>Agile and result-oriented with experience in fast-paced environments</li>
+                            <li>Can work under pressure, delivering high-quality work</li>
+                            <li>Proven ability to manage multiple priorities and deadlines</li>
+                            <li>Detail-Oriented Problem Solver</li>
+                            <li>Effective Communicator &amp; Team Player</li>
+                            <li>Proactive Learner in Dynamic Environments</li>
+                            <li>Deadline-Driven High-Quality Work</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category" id="tech-skills">
+                        <h3>Technical Skills</h3>
+                        <ul>
+                            <li>Google Apps (Sheets, Docs, Sites)</li>
+                            <li>MS Office (Excel, Word, PowerPoint)</li>
+                            <li>Basic SQL MYSQL</li>
+                            <li>Google Analytics</li>
+                            <li>Basic Adobe Photoshop</li>
+                            <li>Corel Draw</li>
+                            <li>Canva</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
 
 
-        <section id="contact" class="cta-section">
-            <h2>Let's Work Together</h2>
-            <p>I'm always open to discussing new opportunities and bringing value to customer service teams.</p>
-            <div>
-                <a href="mailto:faraz30648@gmail.com?subject=Let's Connect" class="btn btn-primary">Get In Touch</a>
-                <a href="https://drive.google.com/file/d/1V0dfRNU9egQlGz3pnpe6X7X9SaAsQB-G/view?usp=drivesdk" class="btn btn-secondary">View CV</a>
-            </div>
-        </section>
+            <section id="contact" class="cta-section">
+                <h2>Let's Work Together</h2>
+                <p>I'm always open to discussing new opportunities and bringing value to customer service teams.</p>
+                <div>
+                    <a href="mailto:faraz30648@gmail.com?subject=Let's Connect" class="btn btn-primary">Get In
+                        Touch</a>
+                    <a href="https://drive.google.com/file/d/1V0dfRNU9egQlGz3pnpe6X7X9SaAsQB-G/view?usp=drivesdk"
+                        class="btn btn-secondary">View CV</a>
+                </div>
+            </section>
 
-    </main>
+        </main>
 
 
-    <footer class="footer">
-        <p>&copy; 2025 Faraz Ahmed. All rights reserved.</p>
-    </footer>
+        <footer class="footer">
+            <p>&copy; 2025 Faraz Ahmed. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button class="back-to-top-fab" id="backToTopFab" aria-label="Back to Profile Card">
+        ↑
+    </button>
 
 
     <script>
+        // ----------------------------------------------------
+        // START: SWIPE DOWN/UP LOGIC & FAB CONTROL
+        // ----------------------------------------------------
+        const swipeDownBtn = document.getElementById('swipeDownBtn');
+        const backToTopFab = document.getElementById('backToTopFab');
+        const headerHeight = window.innerHeight;
+
+        function openContent() {
+            document.body.classList.add('header-open');
+            if (swipeDownBtn) swipeDownBtn.style.display = 'none';
+        }
+
+        function closeContent() {
+            document.body.classList.remove('header-open');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            setTimeout(() => {
+                if (swipeDownBtn) swipeDownBtn.style.display = 'inline-flex';
+                backToTopFab.classList.remove('visible');
+            }, 500);
+        }
+
+        // 1. Swipe Down Button Listener
+        swipeDownBtn.addEventListener('click', openContent);
+
+        // 2. Back-to-Top FAB Listener
+        backToTopFab.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            setTimeout(closeContent, 500);
+        });
+
+
+        // 3. Show/Hide FAB on Scroll
+        window.addEventListener('scroll', () => {
+            if (document.body.classList.contains('header-open') && window.scrollY > headerHeight * 0.1) {
+                backToTopFab.classList.add('visible');
+            } else {
+                backToTopFab.classList.remove('visible');
+            }
+        });
+
+
         // Smooth Scrolling and Menu Close Logic
         document.querySelectorAll('.nav-list a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                // Close menu when a link is clicked
+
+                openContent();
+
                 const navList = document.getElementById('navList');
                 const menuToggle = document.getElementById('menuToggle');
                 if (navList.classList.contains('open')) {
@@ -1033,10 +1190,12 @@
 
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    setTimeout(() => {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 800);
                 }
             });
         });
@@ -1052,9 +1211,13 @@
         });
 
         // ----------------------------------------------------
-        // START: UPDATED CAROUSEL LOGIC WITH PAGINATION
+        // END: SWIPE DOWN/UP LOGIC & FAB CONTROL
         // ----------------------------------------------------
 
+
+        // ----------------------------------------------------
+        // START: CAROUSEL LOGIC
+        // ----------------------------------------------------
         const track = document.getElementById('carouselTrack');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
@@ -1062,16 +1225,15 @@
         const items = document.querySelectorAll('.carousel-item');
         const itemCount = items.length;
         let currentIndex = 0;
-        let itemWidth = 0; // To be calculated on load/resize
+        let itemWidth = 0;
 
-        // Function to create and render indicators
         function renderIndicators() {
-            indicatorsContainer.innerHTML = ''; // Clear existing indicators
+            indicatorsContainer.innerHTML = '';
             for (let i = 0; i < itemCount; i++) {
                 const indicator = document.createElement('button');
                 indicator.classList.add('carousel-indicator');
                 indicator.setAttribute('aria-label', `Go to work experience ${i + 1}`);
-                indicator.dataset.index = i; // Store the index
+                indicator.dataset.index = i;
 
                 if (i === currentIndex) {
                     indicator.classList.add('active');
@@ -1086,46 +1248,34 @@
             }
         }
 
-        // Function to update indicator and button states
         function updateCarouselState() {
-            // Update active indicator
             document.querySelectorAll('.carousel-indicator').forEach((indicator, index) => {
                 indicator.classList.toggle('active', index === currentIndex);
             });
 
-            // Update button disabled state
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex >= itemCount - 1; // Assuming only one item is visible for simplicity
-            
-            // For a more accurate check that handles partial visibility:
-            // Check if the scroll position is close to the start/end
+            // Check if scroll position is at start or end
             const isAtStart = track.scrollLeft < 10;
             const isAtEnd = track.scrollWidth - track.scrollLeft - track.clientWidth < 10;
 
             prevBtn.disabled = isAtStart;
             nextBtn.disabled = isAtEnd;
 
-            // This ensures buttons are disabled correctly if we scroll manually
+            // Double check: if it's the first or last index, disable buttons
             if (currentIndex === 0) prevBtn.disabled = true;
             if (currentIndex === itemCount - 1) nextBtn.disabled = true;
         }
 
 
-        // Function to scroll to a specific index
         function scrollToIndex(index) {
             if (index < 0 || index >= itemCount) return;
-            
-            // Calculate the total scroll amount needed
-            // This relies on the first item being visible at scroll 0, and subsequent items 
-            // starting at position N * (itemWidth + gap)
-            if (itemWidth === 0) {
-                // Fallback or initialization of itemWidth, including the gap (24px or var(--space-24))
-                // This assumes 300px min-width and 24px gap = 324px scroll step for next item
-                const itemStyle = window.getComputedStyle(items[0]);
-                itemWidth = items[0].offsetWidth + parseFloat(itemStyle.marginRight) || 324;
+
+            // Recalculate itemWidth (including gap of 24px)
+            if (items.length > 0) {
+                // Calculate item width + 24px gap. Use getBoundingClientRect().width for accuracy.
+                itemWidth = items[0].getBoundingClientRect().width + 24;
             }
 
-            const scrollAmount = index * (items[0].offsetWidth + 24); // 24px is the gap
+            const scrollAmount = index * itemWidth;
             track.scroll({
                 left: scrollAmount,
                 behavior: 'smooth'
@@ -1134,7 +1284,23 @@
             updateCarouselState();
         }
 
-        // Event listeners for prev/next buttons
+        // Use a debounced/throttle function for resize and load to recalculate itemWidth
+        function recalculateAndScroll() {
+            if (items.length > 0) {
+                // Calculate item width + 24px gap. Use getBoundingClientRect for width.
+                itemWidth = items[0].getBoundingClientRect().width + 24;
+                // Scroll to the current index based on the new itemWidth
+                track.scroll({
+                    left: currentIndex * itemWidth,
+                    behavior: 'auto'
+                });
+                updateCarouselState();
+            }
+        }
+
+        window.addEventListener('resize', recalculateAndScroll);
+
+
         prevBtn.addEventListener('click', () => {
             scrollToIndex(currentIndex - 1);
         });
@@ -1143,17 +1309,16 @@
             scrollToIndex(currentIndex + 1);
         });
 
-        // Event listener for manual scrolling (to update state/indicators)
         track.addEventListener('scroll', () => {
             if (items.length === 0) return;
-            // Determine the currently visible item index based on scroll position
             const scrollLeft = track.scrollLeft;
-            const itemFullWidth = items[0].offsetWidth + 24; // Item width + gap
-            
-            // Calculate the closest item index
+
+            // Recalculate item width including gap (24px)
+            const itemFullWidth = items[0].offsetWidth + 24;
+
+            // Calculate the closest index based on scroll position
             let newIndex = Math.round(scrollLeft / itemFullWidth);
-            
-            // Clamp the index to valid range
+
             newIndex = Math.max(0, Math.min(itemCount - 1, newIndex));
 
             if (newIndex !== currentIndex) {
@@ -1166,28 +1331,26 @@
         // Initialization on load
         window.addEventListener('load', () => {
             renderIndicators();
-            updateCarouselState(); // Initial check for button disabling (prev button should be disabled)
+            recalculateAndScroll(); // Initial check/calculation
 
-            // 1. Profile Picture Animation (Pop-in)
+            // Animations
             const profilePic = document.getElementById('profilePic');
             if (profilePic) {
                 profilePic.classList.remove('initial-load');
                 profilePic.classList.add('animate');
             }
 
-            // 2. Name Animation (Descend) - Trigger with a slight delay
             const userName = document.getElementById('userName');
             if (userName) {
-                // Delay the name animation by 300ms to create a layered effect
                 setTimeout(() => {
                     userName.classList.remove('initial-name-load');
                     userName.classList.add('animate-name');
                 }, 300);
             }
         });
-        
+
         // ----------------------------------------------------
-        // END: UPDATED CAROUSEL LOGIC WITH PAGINATION
+        // END: CAROUSEL LOGIC
         // ----------------------------------------------------
     </script>
 
